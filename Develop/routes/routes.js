@@ -23,7 +23,7 @@ module.exports  = function(app){
     app.get("/api/workouts", function(req, res) {
         Workout.find({})
             .then(dbWorkouts => {
-                console.log(dbWorkouts);
+                console.log("WHAT THE FUCK IS UP");
                 res.json(dbWorkouts);
             })
             .catch(err => {
@@ -34,8 +34,7 @@ module.exports  = function(app){
 //this is a route for adding exercises to a workout
     app.put("/api/workouts/:id", function(req, res) {
         console.log(req.params.id);
-        console.log(req.body);
-        console.log("ID: " + URLSearchParams);
+        console.log(req.body)
         Workout.findByIdAndUpdate(req.params.id , { $push: { exercises: req.body } }, { new: true })
         .then(dbLibrary => {
           res.json(dbLibrary);
