@@ -1,6 +1,5 @@
 const express = require("express")
 const Workout = require("../models/workout");
-const Exercise = require("../models/exercise");
 const path = require("path");
 
 
@@ -24,6 +23,7 @@ module.exports  = function(app){
     app.get("/api/workouts", function(req, res) {
         Workout.find({})
             .then(dbWorkouts => {
+                console.log(dbWorkouts);
                 res.json(dbWorkouts);
             })
             .catch(err => {
@@ -32,27 +32,23 @@ module.exports  = function(app){
     })
 
 //this is a route for adding exercises to a workout
-    app.put("/api/workouts/:id", function({body}, res) {
-        //first create a new instance of the Exercise Schema with the data that comes in
-        const exercise = new Exercise(body);
+    app.put("/api/workouts/:id", function(req, res) {
+        console.log(req.params.id);
+        console.log(req.body);
+        console.log("ID: " + URLSearchParams);
+        Workout.findByIdAndUpdate(req.params.id , { $push: { exercises: req.body } }, { new: true })
+        .then(dbLibrary => {
+          res.json(dbLibrary);
+        })
+        .catch(err => {
+          res.json(err);
+        });
 
-        //then create a new exercise document
-        Exercise.create(exercise)
-            //then update the workout by pushing the new exercise into it
-            .then(({_id}) => Workout.findOneAndUpdate(
-                {_id: mongojs.ObjectId(params.id)},
-                {$push: {exercises: _id}}, { new: true}))
-            //then send the updated workout back to the front end
-            .then(dbExercise => {
-                res.json(dbExercise);
-            })
-            .catch(err => {
-                res.send(err);
-            })
+
     })
 
     app.post("/api/workouts", function(req, res) {
-        db.Workout.create({})
+        Workout.create({})
         .then(dbWorkout => {
             res.json(dbWorkout);
         })
