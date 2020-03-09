@@ -57,7 +57,15 @@ module.exports  = function(app){
     })
 
     app.get("/api/workouts/range", function(req, res) {
-        
+        console.log(new Date().setDate(new Date().getDate()-7))
+        Workout.find({})
+        .then(dbRange => {
+            // console.log(dbRange);
+            res.json(dbRange);
+        })
+        .catch(err => {
+            res.send(err)
+        })
     })
 }
 

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const opts = {toJSON: {virtuals:true}}
 const workoutSchema = mongoose.Schema({
-    date: {
+    day: {
         type: Date,
         default: Date.now
     },
